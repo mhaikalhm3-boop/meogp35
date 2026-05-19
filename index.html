@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en font-sans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bio-Calculus Dashboard: Agrotech & Bioscience Analytics</title>
+    <!-- Tailwind CSS v4 for elegant, responsive layout styling -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Chart.js for rendering beautiful, interactive line graph animations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8 selection:bg-teal-500 selection:text-slate-950">
+
+    <div class="max-w-6xl mx-auto bg-slate-950 rounded-2xl shadow-2xl overflow-hidden border border-slate-800">
+        
+        <!-- Interactive Header with Program Switcher -->
+        <header class="bg-gradient-to-r from-teal-950 via-slate-900 to-emerald-950 p-6 md:p-8 border-b border-slate-800">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="bg-teal-500/10 text-teal-400 border border-teal-500/20 text-xs font-semibold uppercase tracking-widest px-3 py-1 rounded-md">
+                        Faculty of Agro-Based Industry (FIAT) Core Module
+                    </span>
+                    <h1 class="text-2xl md:text-4xl font-extrabold mt-3 text-white tracking-tight">
+                        Applying Derivatives $f'(x)$ to Malaysian Bioscience
+                    </h1>
+                </div>
+                <!-- Program Dropdown Selector -->
+                <div class="bg-slate-900 border border-slate-700 rounded-xl p-2">
+                    <label for="programSelector" class="block text-[10px] uppercase font-bold text-slate-400 mb-1 px-1">Select Your Major:</label>
+                    <select id="programSelector" class="bg-slate-950 text-white font-semibold text-sm rounded-lg p-2 focus:ring-2 focus:ring-teal-500 focus:outline-none cursor-pointer">
+                        <option value="SFA">SFA: Agrotech (Harumanis Mango Matrix)</option>
+                        <option value="SFH">SFH: Animal Husbandry (Ayam Kampung Mass Gain)</option>
+                        <option value="SFM">SFM: Food Security (Indoor Hydroponic Yield)</option>
+                        <option value="SFP">SFP: Agro Product Tech (Thermal Microbial Decay)</option>
+                    </select>
+                </div>
+            </div>
+            <p class="text-slate-400 mt-4 text-sm max-w-4xl leading-relaxed">
+                Raw data points show us the final quantity, but <strong>calculus</strong> unmasks the dynamic system underneath. By calculating the instantaneous derivative ($f'(x)$), we compute the precise <em>speed of biological change</em> at any given second, week, or month.
+            </p>
+        </header>
+
+        <!-- Main Workspace Grid Layout -->
+        <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Information Panel (Left Column: 4-span) -->
+            <div class="lg:col-span-4 space-y-6">
+                
+                <!-- Dynamic Scenario Description -->
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">The Bioscience Scenario</h3>
+                    <p id="scenarioText" class="text-xs md:text-sm text-slate-300 leading-relaxed transition-opacity duration-300">
+                        <!-- Content Injected via JavaScript -->
+                    </p>
+                    <div class="mt-3 pt-2 border-t border-slate-800 text-[11px] text-slate-400">
+                        <strong>Source Reference:</strong> <span id="sourceReference" class="italic text-teal-400"></span>
+                    </div>
+                </div>
+
+                <!-- Live Mathematical Equations -->
+                <div class="bg-slate-900 p-4 rounded-xl border border-teal-900/40 space-y-4">
+                    <h3 class="text-xs font-bold text-teal-400 uppercase tracking-wider">Mathematical Calculus Engine</h3>
+                    
+                    <!-- Original Function f(x) -->
+                    <div>
+                        <span id="functionLabel" class="text-[11px] font-semibold text-slate-400 uppercase block">Total Mass Function, $f(x)$</span>
+                        <div id="functionFormula" class="bg-slate-950 p-2.5 rounded border border-slate-800 font-mono text-xs my-1 text-center font-bold text-white tracking-wide">
+                            <!-- Content Injected via JavaScript -->
+                        </div>
+                        <p id="functionDesc" class="text-[11px] text-slate-400"></p>
+                    </div>
+
+                    <!-- Derivative Function f'(x) -->
+                    <div>
+                        <span id="derivativeLabel" class="text-[11px] font-semibold text-teal-400 uppercase block">Instantaneous Velocity, $f'(x)$</span>
+                        <div id="derivativeFormula" class="bg-slate-950 p-2.5 rounded border border-teal-900/60 font-mono text-xs my-1 text-center font-bold text-teal-400 tracking-wide">
+                            <!-- Content Injected via JavaScript -->
+                        </div>
+                        <p id="derivativeDesc" class="text-[11px] text-slate-400"></p>
+                    </div>
+                </div>
+
+                <!-- Interactive Live Telemetry Output Display -->
+                <div id="outputCard" class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-5 rounded-xl shadow-lg transition-all duration-300">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Calculus Telemetry Output</h3>
+                    
+                    <div id="promptMessage" class="text-xs text-teal-400/80 bg-teal-950/20 border border-teal-900/30 p-3 rounded-lg text-center animate-pulse">
+                        📊 Click directly on any coordinate circle along the line graph to evaluate its derivative instantly!
+                    </div>
+
+                    <div id="calcData" class="hidden space-y-3.5">
+                        <div class="flex justify-between border-b border-slate-800 pb-1.5 text-xs md:text-sm">
+                            <span id="telemetryXLabel" class="text-slate-400">Time Coordinate ($x$):</span>
+                            <span id="outX" class="font-mono font-bold text-teal-400"></span>
+                        </div>
+                        <div class="flex justify-between border-b border-slate-800 pb-1.5 text-xs md:text-sm">
+                            <span id="telemetryYLabel" class="text-slate-400">Raw Yield ($f(x)$):</span>
+                            <span id="outY" class="font-mono font-bold text-white"></span>
+                        </div>
+                        <div class="flex justify-between border-b border-slate-800 pb-1.5 text-xs md:text-sm">
+                            <span class="text-teal-400 font-semibold">Calculated Derivative ($f'(x)$):</span>
+                            <span id="outDeriv" class="font-mono font-bold text-emerald-400"></span>
+                        </div>
+                        <div class="pt-1.5">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-teal-400 block mb-1">Agro-Bioscience Meaning:</span>
+                            <p id="outLayman" class="text-xs text-slate-300 leading-relaxed bg-slate-950 p-2.5 rounded border border-slate-800"></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Graph Canvas Display Panel (Right Column: 8-span) -->
+            <div class="lg:col-span-8 flex flex-col justify-between space-y-4">
+                <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-800 text-xs text-slate-400 flex justify-between items-center">
+                    <span class="flex items-center gap-2">
+                        <span class="h-2 w-2 rounded-full bg-teal-500 animate-ping"></span>
+                        <span id="chartStatusTitle">Live Simulation Engine</span>
+                    </span>
+                    <span class="text-slate-500 font-mono text-[10px]">Chart.js Context Physics Engine</span>
+                </div>
+                
+                <!-- Chart Canvas Container Box -->
+                <div class="relative w-full h-[340px] md:h-[440px] bg-slate-900/20 p-2 rounded-xl border border-slate-800/40">
+                    <canvas id="bioscienceChart"></canvas>
+                </div>
+                
+                <!-- Dynamic Contextual Field Note Bottom Box -->
+                <div id="fieldInsightBox" class="bg-emerald-950/20 border border-emerald-900/40 rounded-xl p-4 text-xs text-emerald-300/90 leading-relaxed">
+                    <!-- Text changes dynamically based on selection -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- System Footer -->
+        <footer class="bg-slate-900/40 border-t border-slate-800 px-6 py-4 text-[11px] text-slate-500 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div>FIAT Core Bioscience Math Engine • SFA • SFH • SFM • SFP</div>
+            <div>Designed with Chart.js & Tailwind CSS</div>
+        </footer>
+
+    </div>
+
+    <!-- Integrated Biological Systems Simulation Script Configuration -->
+    <script>
+        // 1. Unified Dataset Management Module for All Four Program Options
+        const majorModules = {
+            SFA: {
+                title: "Perlis Harumanis Mango (*Mangifera indica*) Mass Accumulation",
+                xAxisLabel: "Weeks Post-Anthesis",
+                yAxisLabel: "Weight per Mango Fruit (g)",
+                minX: 0, maxX: 12, minY: 0, maxY: 800,
+                source: "Department of Agriculture Perlis (DOA Malaysia), 'Manual Teknologi Penanaman Mangga Harumanis'",
+                scenario: "Tracks the growth development cycle of signature Perlis Harumanis mangoes over 12 weeks. Understanding growth velocity allows agrotech specialists to allocate potassium fertigation profiles correctly before structural cell deceleration sets in.",
+                functionText: "f(x) = -0.55x³ + 11.5x² + 5.0x + 25.0",
+                derivativeText: "f'(x) = -1.65x² + 23.0x + 5.0",
+                functionDesc: "Calculates total weight of the mango fruit in grams (g) at week x.",
+                derivativeDesc: "Yields immediate velocity growth speed in grams per week (g/week).",
+                insight: "<strong>Agrotech Insight:</strong> The derivative $f'(x)$ reaches its highest point between Week 6 and 8. After Week 8, even though the total weight increases, the speed of growth drops toward zero. This indicates that cellular expansion has concluded and metabolic pathways have switched exclusively to ripening and sugar transformation.",
+                fx: (x) => (-0.55 * Math.pow(x, 3)) + (11.5 * Math.pow(x, 2)) + (5 * x) + 25,
+                dfx: (x) => (-1.65 * Math.pow(x, 2)) + (23 * x) + 5,
+                interpret: (x, rate) => {
+                    if(x <= 3) return `At Week ${x}, the mango is undergoing initial cellular layout setup. Growth speed is low (${rate} g/week). Plants require strong nitrogen support here.`;
+                    if(x <= 8) return `At Week ${x}, the fruit is in its explosive expansion phase! It is gaining weight at an amazing speed of ${rate} g/week. Maintain steady water lines.`;
+                    return `At Week ${x}, physical expansion velocity drops down to ${rate} g/week. The mango fruit shifts metabolic resources away from resizing to build sugars and flavor notes.`;
+                }
+            },
+            SFH: {
+                title: "Malaysian 'Ayam Kampung' (Free-Range Chicken) Growth Tracking",
+                xAxisLabel: "Age Sequence (Weeks)",
+                yAxisLabel: "Individual Bird Mass (g)",
+                minX: 0, maxX: 12, minY: 0, maxY: 1600,
+                source: "Malaysian Agricultural Research and Development Institute (MARDI) Livestock Poultry Bulletin",
+                scenario: "Models structural mass gains of indigenous free-range birds over a standard 12-week organic meat production cycle. Isolating derivatives informs producers of optimal slaughter windows to defend high Feed Conversion Ratios (FCR).",
+                functionText: "f(x) = -1.1x³ + 24.0x² + 15.0x + 35.0",
+                derivativeText: "f'(x) = -3.3x² + 48.0x + 15.0",
+                functionDesc: "Predicts the live body weight of the chicken in grams (g) at week x.",
+                derivativeDesc: "Calculates instantaneous speed of weight gain in grams per week (g/week).",
+                insight: "<strong>Animal Husbandry Insight:</strong> The derivative reveals acceleration starts tapering down significantly by Week 10. This indicates the biological inflection point where additional feed inputs no longer produce linear muscle mass increase, meaning keeping the flock longer lowers profit margins.",
+                fx: (x) => (-1.1 * Math.pow(x, 3)) + (24 * Math.pow(x, 2)) + (15 * x) + 35,
+                dfx: (x) => (-3.3 * Math.pow(x, 2)) + (48 * x) + 15,
+                interpret: (x, rate) => {
+                    if(x <= 3) return `At Week ${x}, the chick is developing internal bone frameworks and feathering coats. It adds mass at ${rate} g/week. High temperature management is critical.`;
+                    if(x <= 9) return `At Week ${x}, the chicken is in its peak muscular expansion stage, gaining a massive ${rate} grams this week. Ensure high protein density rations are active.`;
+                    return `At Week ${x}, growth velocity slows to ${rate} g/week. The animal's structural size is plateauing, and added weight is mostly fat deposit layers rather than lean muscle meat.`;
+                }
+            },
+            SFM: {
+                title: "Vertical Urban Hydroponic Red Oak Lettuce Yield Multipliers",
+                xAxisLabel: "Cultivation Timeline (Days)",
+                yAxisLabel: "Total Biomass Yield per Tray (g)",
+                minX: 0, maxX: 30, minY: 0, maxY: 1200,
+                source: "Ministry of Agriculture and Food Security (MAFS Malaysia), 'Pelan Tindakan Dasar Sekuriti Makanan'",
+                scenario: "Analyzes systemic biomass production speeds inside climate-controlled vertical hydroponic units. Calculating derivative metrics helps verify nutrient film technique flow rates for stable, year-round urban food supply consistency.",
+                functionText: "f(x) = -0.04x³ + 1.8x² + 2.0x + 10.0",
+                derivativeText: "f'(x) = -0.12x² + 3.6x + 2.0",
+                functionDesc: "Calculates complete tray biomass weight in grams (g) at day x.",
+                derivativeDesc: "Yields the clean daily expansion rate change in grams per day (g/day).",
+                insight: "<strong>Food Security Insight:</strong> Leafy green vegetables display an exponential-leaning curve until close to harvest. Tracking the derivative allows engineers to optimize the exact harvesting afternoon when the daily rate of change maximizes before internal leaf crowding begins.",
+                fx: (x) => (-0.04 * Math.pow(x, 3)) + (1.8 * Math.pow(x, 2)) + (2 * x) + 10,
+                dfx: (x) => (-0.12 * Math.pow(x, 2)) + (3.6 * x) + 2,
+                interpret: (x, rate) => {
+                    if(x <= 10) return `Day ${x}: The seedling root lines are securing layout spacing inside the track. Biomass steps forward at ${rate} g/day. Keep light arrays close.`;
+                    if(x <= 25) return `Day ${x}: Exploding vegetative growth stage! Leaf surfaces are drawing in lumens and accumulating ${rate} grams daily per tray. Optimize EC values.`;
+                    return `Day ${x}: Canopy saturation stage. Yield speed dips back down to ${rate} g/day due to microclimate leaf shading. Harvesting sequences should begin.`;
+                }
+            },
+            SFP: {
+                title: "Thermal Pasteurization Decay Rates of Spoilage Microbes",
+                xAxisLabel: "Processing Time (Seconds)",
+                yAxisLabel: "Viable Microbe Count per mL",
+                minX: 0, maxX: 60, minY: 0, maxY: 10000,
+                source: "Malaysian Journal of Food Science and Technology (MPOB & MARDI Processing Archives)",
+                scenario: "Evaluates the pasteurization rate of local fruit juices under High-Temperature Short-Time (HTST) heat protocols. Applying derivatives determines the speed of bacterial cell breakdown, ensuring food safety standards while protecting valuable vitamins.",
+                functionText: "f(x) = 10000 - 300x + 2.5x²",
+                derivativeText: "f'(x) = -300 + 5.0x",
+                functionDesc: "Predicts remaining viable microbial counts per mL after x seconds of thermal exposure.",
+                derivativeDesc: "Displays instantaneous bacterial destruction speed per second (microbes destroyed/sec).",
+                insight: "<strong>Agro Product Insight:</strong> The negative value of our derivative confirms continuous micro-organism reduction. Looking at the value tells engineers exactly when the sterilization process speed levels off, protecting food products from over-cooking.",
+                fx: (x) => 10000 - (300 * x) + (2.5 * Math.pow(x, 2)),
+                dfx: (x) => -300 + (5 * x),
+                interpret: (x, rate) => {
+                    if(x <= 20) return `${x} Seconds: The raw initial thermal shock is active. Microorganisms are dropping rapidly at a speed of ${rate} units/second.`;
+                    if(x <= 45) return `${x} Seconds: Constant heat exposure continues neutralizing targets at ${rate} units/second. Cellular protein configurations are unravelling.`;
+                    return `${x} Seconds: Target reduction velocity sits at ${rate} units/second. Safety levels have been achieved with minimal thermal damage to the product juice profile.`;
+                }
+            }
+        };
+
+        // 2. Global View State Variables
+        let activeModule = majorModules.SFA;
+        let mainChartInstance = null;
+
+        // 3. UI Node Selectors
+        const programSelector = document.getElementById('programSelector');
+        const scenarioText = document.getElementById('scenarioText');
+        const sourceReference = document.getElementById('sourceReference');
+        const functionFormula = document.getElementById('functionFormula');
+        const derivativeFormula = document.getElementById('derivativeFormula');
+        const functionDesc = document.getElementById('functionDesc');
+        const derivativeDesc = document.getElementById('derivativeDesc');
+        const fieldInsightBox = document.getElementById('fieldInsightBox');
+        const chartStatusTitle = document.getElementById('chartStatusTitle');
+        
+        const outputCard = document.getElementById('outputCard');
+        const promptMessage = document.getElementById('promptMessage');
+        const calcData = document.getElementById('calcData');
+        const outX = document.getElementById('outX');
+        const outY = document.getElementById('outY');
+        const outDeriv = document.getElementById('outDeriv');
+        const outLayman = document.getElementById('outLayman');
+        const telemetryXLabel = document.getElementById('telemetryXLabel');
+        const telemetryYLabel = document.getElementById('telemetryYLabel');
+
+        // 4. Data Generation Engine
+        function generateTelemetryData(mod) {
+            const labels = [];
+            const data = [];
+            const step = (mod.maxX - mod.minX) / 12; // 12 anchor data nodes for uniform plot aesthetics
+            
+            for (let i = 0; i <= 12; i++) {
+                let currentVal = mod.minX + (i * step);
+                // For processing seconds, keep values round; otherwise, round to 1 decimal place
+                let currentRounded = mod.maxX > 30 ? Math.round(currentVal) : parseFloat(currentVal.toFixed(1));
+                labels.push(currentRounded);
+                data.push(mod.fx(currentRounded).toFixed(2));
+            }
+            return { labels, data };
+        }
+
+        // 5. Interface Synchronization Function
+        function updateAppWorkspace(selectedKey) {
+            activeModule = majorModules[selectedKey];
+            
+            // Textual injections
+            scenarioText.innerText = activeModule.scenario;
+            sourceReference.innerText = activeModule.source;
+            functionFormula.innerHTML = activeModule.functionText;
+            derivativeFormula.innerHTML = activeModule.derivativeText;
+            functionDesc.innerText = activeModule.functionDesc;
+            derivativeDesc.innerText = activeModule.derivativeDesc;
+            fieldInsightBox.innerHTML = activeModule.insight;
+            chartStatusTitle.innerText = `Active Telemetry Model: ${activeModule.title}`;
+
+            // Reset interaction box back to waiting state
+            calcData.classList.add('hidden');
+            promptMessage.classList.remove('hidden');
+
+            // Generate graph datasets
+            const plotData = generateTelemetryData(activeModule);
+
+            // Rebuild or update the Chart.js instance safely
+            if (mainChartInstance) {
+                mainChartInstance.destroy();
+            }
+
+            const canvasCtx = document.getElementById('bioscienceChart').getContext('2d');
+            mainChartInstance = new Chart(canvasCtx, {
+                type: 'line',
+                data: {
+                    labels: plotData.labels,
+                    datasets: [{
+                        label: activeModule.yAxisLabel,
+                        data: plotData.data,
+                        borderColor: '#14b8a6', // Clean Tailwind Teal 500
+                        borderWidth: 3,
+                        backgroundColor: 'rgba(20, 184, 166, 0.04)',
+                        fill: true,
+                        tension: 0.2,
+                        pointBackgroundColor: '#14b8a6',
+                        pointHoverRadius: 10,
+                        pointHoverBackgroundColor: '#10b981', // Emerald 500 highlight color on selection hover
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeOutQuart'
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: activeModule.xAxisLabel,
+                                color: '#94a3b8',
+                                font: { size: 12, weight: '600' }
+                            },
+                            grid: { color: '#1e293b' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: activeModule.yAxisLabel,
+                                color: '#94a3b8',
+                                font: { size: 12, weight: '600' }
+                            },
+                            min: activeModule.minY,
+                            max: activeModule.maxY,
+                            grid: { color: '#1e293b' },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#f8fafc' } },
+                        tooltip: {
+                            backgroundColor: '#0f172a',
+                            titleColor: '#14b8a6',
+                            bodyColor: '#f1f5f9',
+                            borderColor: '#334155',
+                            borderWidth: 1,
+                            callbacks: {
+                                footer: function() {
+                                    return 'Click node point to capture derivative metrics!';
+                                }
+                            }
+                        }
+                    },
+                    // Click Event Handler to evaluate the derivative f'(x)
+                    onClick: (event, activeElements) => {
+                        if (activeElements.length > 0) {
+                            const dataIndex = activeElements[0].index;
+                            const xValue = plotData.labels[dataIndex];
+                            const yValue = parseFloat(plotData.data[dataIndex]);
+                            
+                            // Math evaluation processing
+                            const derivativeValue = activeModule.dfx(xValue).toFixed(2);
+                            const unitString = activeModule.yAxisLabel.includes("Weight") ? "g/week" : 
+                                             activeModule.yAxisLabel.includes("Biomass") ? "g/day" : "microbes/sec";
+
+                            // UI Telemetry text swap transformations
+                            promptMessage.classList.add('hidden');
+                            calcData.classList.remove('hidden');
+
+                            telemetryXLabel.innerText = `${activeModule.xAxisLabel.split(' ')[0]} Index ($x$):`;
+                            telemetryYLabel.innerText = `Observed Output ($f(x)$):`;
+
+                            outX.innerText = `${xValue}`;
+                            outY.innerText = `${yValue.toFixed(1)} ${activeModule.yAxisLabel.match(/\(([^)]+)\)/)?.[0] || ''}`;
+                            outDeriv.innerText = `${derivativeValue > 0 ? '+' : ''}${derivativeValue} ${unitString}`;
+                            outLayman.innerText = activeModule.interpret(xValue, derivativeValue);
+
+                            // Micro-animation alert feedback loop for confirmation
+                            outputCard.classList.add('border-teal-500', 'bg-slate-900');
+                            setTimeout(() => outputCard.classList.remove('border-teal-500'), 400);
+                        }
+                    }
+                }
+            });
+        }
+
+        // 6. Application Activation Event Listeners
+        programSelector.addEventListener('change', (e) => {
+            updateAppWorkspace(e.target.value);
+        });
+
+        // Initialize display configuration using default SFA parameters on first load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateAppWorkspace('SFA');
+        });
+    </script>
+</body>
+</html>
